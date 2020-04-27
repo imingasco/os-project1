@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+dir="OS_PJ1_Test"
+out_dir="output"
+ls -1 ${dir} | while read filename; do
+    dmesg --clear
+    task=$(echo ${filename} | cut -d . -f 1)
+    ./project < "${dir}/${filename}" > "${out_dir}/${task}_stdout.txt"
+    dmesg | grep "Project1" > "${task}_dmesg.txt"
+done
+
