@@ -96,14 +96,12 @@ void FIFO(int N){
 
         // Run first process
         int execute_time = allocate(idx, now_idx, N, now_time);
-        // fprintf(stderr, "execute_time is %d\n", execute_time);
-        fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
+        // fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
         memcpy(arg_ptr, &execute_time, sizeof(int));
         now_time += *arg_ptr;
         process[now_idx].T -= *arg_ptr;
-        // fprintf(stderr, "process %d should run %d\n", now_idx, *arg_ptr);
         run_process(process[now_idx].pid);
-        fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
+        // fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
         if(process[now_idx].T <= 0)
             now_idx++;
     }
@@ -127,15 +125,13 @@ void SJF(int N){
             // Run Shortest job
             // fprintf(stderr, "shorest is %d with %d\n", now_idx, shortest);
             int execute_time = allocate(idx, now_idx, N, now_time);
-            fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
-            // fprintf(stderr, "execute_time is %d\n", execute_time);
+            // fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
             memcpy(arg_ptr, &execute_time, sizeof(int));
             now_time += *arg_ptr;
             process[now_idx].T -= *arg_ptr;
 
-            // fprintf(stderr, "process %d should run %d\n", now_idx, *arg_ptr);
             run_process(process[now_idx].pid);
-            fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
+            // fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
             idx = fork_child(idx, now_time, N);
         }
     }
@@ -151,12 +147,9 @@ void RR(int N){
         // Round Robin
         for(int i = 0; i < idx; i++){
             int timeout = 500;
-            // fprintf(stderr, "idx is %d\n", idx);
-            // fprintf(stderr, "i is %d\n", i);
             while(process[i].T > 0 && timeout > 0){
-                // fprintf(stderr, "execute_time is %d\n", execute_time);
                 int execute_time = min(allocate(idx, i, N, now_time), timeout);
-                fprintf(stderr, "process %d run at %d\n", process[i].pid, now_time);
+                // fprintf(stderr, "process %d run at %d\n", process[i].pid, now_time);
                 memcpy(arg_ptr, &execute_time, sizeof(int));
                 now_time += *arg_ptr;
                 process[i].T -= *arg_ptr;
@@ -164,7 +157,7 @@ void RR(int N){
                     done++;
                 timeout -= execute_time;
                 run_process(process[i].pid); 
-                fprintf(stderr, "process %d stop at %d\n", process[i].pid, now_time);
+                // fprintf(stderr, "process %d stop at %d\n", process[i].pid, now_time);
                 idx = fork_child(idx, now_time, N);
             }
         }
@@ -187,14 +180,14 @@ void PSJF(int N){
             }
         }
         while(process[now_idx].T > 0 && timeout > 0){
-            fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
+            // fprintf(stderr, "process %d run at %d\n", process[now_idx].pid, now_time);
             int execute_time = min(allocate(idx, now_idx, N, now_time), timeout);
             memcpy(arg_ptr, &execute_time, sizeof(int));
             now_time += *arg_ptr;
             process[now_idx].T -= *arg_ptr;
             timeout -= *arg_ptr;
             run_process(process[now_idx].pid);
-            fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
+            // fprintf(stderr, "process %d stop at %d\n", process[now_idx].pid, now_time);
             idx = fork_child(idx, now_time, N);
         }
     }
