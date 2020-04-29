@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+dmesg --clear
+./project < OS_PJ1_Test/FIFO_1.txt

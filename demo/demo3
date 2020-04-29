@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+dmesg --clear
+./project < OS_PJ1_Test/PSJF_2.txt
